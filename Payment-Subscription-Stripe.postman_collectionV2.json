@@ -1,0 +1,224 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Payment-Subscription-Stripe",
+		"_postman_id": "74095ffa-807f-f580-c9e0-e273fda9615f",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"request": {
+				"url": "localhost:3000/test",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Checkout Payment",
+			"request": {
+				"url": "localhost:3030/checkout",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"line_items\":[\n\t\t{\n\t\t\"name\": \"notebook\",\n\t\t\"amount\": 100,\n\t\t\"currency\": \"usd\",\n\t\t\"quantity\": 2\n\t\t},\n\t\t{\n\t\t\"name\": \"Book\",\n\t\t\"amount\": 200,\n\t\t\"currency\": \"usd\",\n\t\t\"quantity\": 1\n\t\t}\n\t]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "PaymentIntent Create",
+			"request": {
+				"url": "localhost:3030/payments",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"amount\": \"100\",\n    \"currency\": \"inr\",\n    \"receipt_email\": \"sushreeta04@gmail.com\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Subscription Create",
+			"request": {
+				"url": "localhost:3030/subscription",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userId\": \"cus_ICxJ4NzaOov7dk\",\n  \"plan\": \"sub_ICAtzO8gUbsizO\" ,\n  \"payment_method\": \"pi_1HcXi7AQ0Yn6ZpJngpCDu1ve\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Subscription Proration Initiate",
+			"request": {
+				"url": "localhost:3030/subscription/prorate/sub_IDQXR9XWunQMF5",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"plan\": \"price_1Hcp1CAQ0Yn6ZpJnHX89aRJH\",\n\t\"userId\": \"cus_IDQXYSTUzJOipK\"\n}"
+				},
+				"description": "Ask user for confirmation based on invoice amount difference."
+			},
+			"response": []
+		},
+		{
+			"name": "Subscription Proration confirmed",
+			"request": {
+				"url": "localhost:3030/subscription/prorate/confirm/sub_IDQXR9XWunQMF5",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"plan\": \"price_1Hcp1CAQ0Yn6ZpJnHX89aRJH\"\n}"
+				},
+				"description": "Finally update subscription."
+			},
+			"response": []
+		},
+		{
+			"name": "Subscription List",
+			"request": {
+				"url": "localhost:3030/subscription",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Subscription Cancel at Period End",
+			"request": {
+				"url": "localhost:3030/subscription/cancel/periodend/sub_IDRTTd6rzC7KeQ",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\": \"cus_IDQXYSTUzJOipK\"\n}"
+				},
+				"description": "End of billing cycle."
+			},
+			"response": []
+		},
+		{
+			"name": "Subscription Cancel Immediately",
+			"request": {
+				"url": "localhost:3030/subscription/cancel/sub_IDRTTd6rzC7KeQ",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\": \"cus_IDQXYSTUzJOipK\"\n}"
+				},
+				"description": "Will be effective immediately."
+			},
+			"response": []
+		},
+		{
+			"name": "Customer Create",
+			"request": {
+				"url": "localhost:3030/customer",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"sushreeta@xyz.com\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Customer Save Credit Card",
+			"request": {
+				"url": "localhost:3030/wallet",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\": \"cus_IDNSMINyXMgYHQ\"\n}"
+				},
+				"description": "This is not working properly"
+			},
+			"response": []
+		},
+		{
+			"name": "Customer Saved Credit Card List",
+			"request": {
+				"url": "localhost:3030/wallet/cus_IDNSMINyXMgYHQ",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
