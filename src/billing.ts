@@ -47,10 +47,22 @@ export const cancelSubscription = async (
   userId: string,
   subscriptionId: string,
 ) => {
-  const subscription = await stripe.subscriptions.del(subscriptionId); //this immidiately cancel the subscription
+  //cancel the subscription immediately
+  const subscription = await stripe.subscriptions.del(subscriptionId);
 
-  // cancel at end of period
-  // const subscription = await stripe.subscriptions.update(subscriptionId, { cancel_at_period_end: true });
+  if (subscription.status == "canceled") {
+    //update in db(remove the subscription plan)
+  }
+  
+  return subscription;
+}
+export const cancelSubscriptionAtPeriodEnd = async (
+  userId: string,
+  subscriptionId: string,
+) => {
+
+  // canceled at the end of the current period
+  const subscription = await stripe.subscriptions.update(subscriptionId, { cancel_at_period_end: true });
 
   if (subscription.status == "canceled") {
     //update in db(remove the subscription plan)

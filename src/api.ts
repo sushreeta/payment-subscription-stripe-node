@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 export const app = express();
-import { createSubscription, listSubscription, cancelSubscription } from "./billing";
+import { createSubscription, listSubscription, cancelSubscription, cancelSubscriptionAtPeriodEnd } from "./billing";
 import { createPaymentIntent } from "./payment";
 import { createStripeCheckoutSEssion } from "./checkout";
 import { getOrCreateCustomer } from "./customer";
@@ -81,13 +81,24 @@ app.get(
   })
 );
 
-//update subscription
+//cancel subscription immediately
 app.patch(
-  '/subscription/:id',
+  '/subscription/cancel/:id',
   runAsync(async (req: Request, res: Response) => {
     // const user = validateUser(req);
     const { userId } = req.body;
     const subscription = await cancelSubscription(userId, req.params.id);
+    res.send(subscription);
+  })
+);
+
+//cancel at period end subscription
+app.patch(
+  '/subscription/cancelperiodend/:id',
+  runAsync(async (req: Request, res: Response) => {
+    // const user = validateUser(req);
+    const { userId } = req.body;
+    const subscription = await cancelSubscriptionAtPeriodEnd(userId, req.params.id);
     res.send(subscription);
   })
 );
