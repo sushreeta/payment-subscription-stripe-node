@@ -25,18 +25,18 @@ export const getOrCreateCustomer = async (email: string) => {
 
 // save credit card for later use
 export const createSetupIntent = async (userId: string) => {
-  const customer = await getOrCreateCustomer(userId);
+  // const customer = await getOrCreateCustomer(userId);
   return stripe.setupIntents.create({
-    customer: customer.id,
+    customer: userId,
   });
 };
 
 // all payment sources associated to the user
 export const listPaymentMethods = async (userId: string) => {
-  const customer = await getOrCreateCustomer(userId);
+  // const customer = await getOrCreateCustomer(userId);
 
   return stripe.paymentMethods.list({
-    customer: customer.id,
+    customer: userId,
     type: "card",
   });
 };

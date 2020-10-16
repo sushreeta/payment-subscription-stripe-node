@@ -163,18 +163,20 @@ app.post("/hooks", runAsync(handleStripeWebhook));
 app.post(
   "/wallet",
   runAsync(async (req: Request, res: Response) => {
-    const user = validateUser(req);
-    const setupIntent = await createSetupIntent(user.uid);
+    // const user = validateUser(req);
+    const { userId } = req.body;
+    const setupIntent = await createSetupIntent(userId);
     res.send(setupIntent);
   })
 );
 
 // Retrive all cards attached to a customer
 app.get(
-  "/wallet",
+  "/wallet/:id",
   runAsync(async (req: Request, res: Response) => {
-    const user = validateUser(req);
-    const wallet = await listPaymentMethods(user.uid);
+    // const user = validateUser(req);
+    // user.uid
+    const wallet = await listPaymentMethods(req.params.id);
     res.send(wallet.data);
   })
 );
